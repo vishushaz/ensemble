@@ -1,4 +1,4 @@
-Data = readtable('C:\Users\vishu\Desktop\PhD\ML\data\Machine Learning for Data Science using MATLAB\Classification\K-Nearest Neighbor\Social_Network_Ads.csv');
+Data = readtable('C:.......\Social_Network_Ads.csv');
 Std_age = (Data.Age - mean(Data.Age))/std(Data.Age);
 Data.Age = Std_age;
 Std_Estimated_Salary = (Data.EstimatedSalary - mean(Data.EstimatedSalary))/std(Data.EstimatedSalary);
