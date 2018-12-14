@@ -1,0 +1,83 @@
+Data = readtable('C:....\SuperMarket_Customers.csv');
+
+% %% Method 1: Deleting entire row or columns
+% complete_data = rmmissing(Data);
+% complete_Data = rmmissing(Data,2);
+% 
+% %% Method 2: Using mean
+% 
+% M_Avg = mean(Data.Age, 'omitnan'); 
+% U_Age = fillmissing(Data.Age, 'constant', M_Avg);
+% 
+% Data.Age = U_Age; 
+% 
+% A_Sal = mean(Data.AnnualSalary, 'omitnan');
+% U_Sal = fillmissing(Data.AnnualSalary,'constant', A_Sal);
+% Data.AnnualSalary = U_Sal;
+% Data
+% 
+% %% Method 3: Method 1 based on %age of missing
+% Data2 = readtable('C:....\SuperMarket_Customers.csv');
+% 
+% R_missing = rmmissing(Data2,2, 'MinNumMissing',2);
+
+%% Feature Scalling
+
+% Data3 = readtable('C:....\SuperMarket_Customers.csv');
+
+Std_AnnualIncome = (Data.AnnualIncome - mean(Data.AnnualIncome))/std(Data.AnnualIncome);
+Data.AnnualIncome
+
+Std_SpendingScore = (Data.SpendingScore - mean(Data.SpendingScore))/std(Data.SpendingScore);
+Data.AnnualIncome
+
+Data = Data(:,4:5);
+Data = table2array(Data);
+
+% normalize_age = (Data3.Age - min(Data3.Age))/(max(Data3.Age) - min(Data3.Age));
+% Data3.Age = normalize_age;
+% Data3.Age
+% 
+% %% ------------Handling Outlier ---------------------
+% Data4 = readtable('C:....\SuperMarket_Customers.csv');
+% outliers = isoutlier(Data3.Age);
+% DataA = Data4(~outliers,:);
+% 
+% outliers = isoutlier(Data4.AnnualSalary);
+% DataB = Data4(~outliers,:)
+% 
+% %%
+% Age = filloutliers(Data4.Age,'nearest')
+% 
+% Data4.Age = Age
+% 
+% %% Categorical data
+% 
+% Data4
+
+wcss = [];
+for k = 1:10
+    sumall = 0;
+    [idx, C, sumall] = kmeans(Data, k);
+    wcss(k) = sum(sumall);
+end
+plot(1:10, wcss);
+ 
+
+[idx, C] = kmeans(Data,5);
+
+
+
+
+figure,
+
+gscatter(Data(:,1), Data(:,2), idx);
+hold on
+for i =1:5
+    scatter(C(1,1),C(1,2), 96, 'black', 'filled');
+    
+end
+legend({'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5'})
+xlabel('Annual Income');
+ylabel('Spending Scores');
+hold off
